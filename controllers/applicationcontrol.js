@@ -1,4 +1,3 @@
-const { application } = require("express");
 const Application= require("../models/Application");
 const Job = require("../models/Job");
 
@@ -8,9 +7,9 @@ const applyForJob = async (req,res) =>{
 try{
 
  const {JobId} = req.params;
- const {CoverLetter} = req.body;
+ const {coverLetter} = req.body;
 
- //check if the job exiest
+ //check if the job exists
  const job= await Job.findById(JobId);
  if(!job){
     return res.status(404).json({message:"job not found"})
@@ -29,7 +28,7 @@ try{
   }
 
 //create application
-const application = await Application.create({job:JobId,applicant:req.user._id,coverLetter:CoverLetter});
+const application = await Application.create({job:JobId,applicant:req.user._id,coverLetter:coverLetter});
 
 res.status(201).json({message:"application submitted successfully",application});
 
@@ -49,7 +48,7 @@ const  getMyApplications= async (req,res) =>{
   const application= await Application.find({applicant:req.user._id})
   .populate("job","title company location type salary").sort({createdAt: -1});
   
-  res.status(200).json({message:"your application featch succesfully",count:application.length,application});
+  res.status(200).json({message:"your application fetched successfully",count:application.length,application});
 
     
   }catch(error){
@@ -78,9 +77,9 @@ const  getMyApplications= async (req,res) =>{
               return res.status(403).json({message:" Not authorized to view these applications"});
             }
             const application = await Application.find({job:JobId})
-            .populate("application", "name email").sort({createdAt: -1});
+            .populate("applicant", "name email").sort({createdAt: -1});
 
-            res.status(200).json({message:"application featched successfully",count:application.length,application});
+            res.status(200).json({message:"application fetched successfully",count:application.length,application});
 
           }catch(error){
               res.status(500).json({message:"server error", error:error.message});
@@ -93,16 +92,17 @@ const  getMyApplications= async (req,res) =>{
         try{
         const {status}= req.body;
         
-const job = await Job.findById(application.job);
-
        const validstatus= ["Pending","Reviewed","Rejected","Accepted"];
 
        if(!validstatus.includes(status)){
-        return res.status(400).json({message:"invalids status value"});
+       return res.status(400).json({message:"invalid status value"});
        }
-  
+
        const application = await Application.findById(req.params.id).populate("job");
 
+       if(!application){
+        return res.status(404).json({message:"application not found"}); 
+       }
        if(!application){
         return res.status(404).json({message:"application not found"}); 
        }
