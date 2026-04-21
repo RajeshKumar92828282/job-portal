@@ -1,7 +1,6 @@
-const { default: mongoose } = require("mongoose");
-const moongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-const jobSchema= new moongoose.Schema(
+const jobSchema= new mongoose.Schema(
     {
      
     title:{
@@ -15,12 +14,12 @@ const jobSchema= new moongoose.Schema(
 
     location:{
       type:String,
-      requred:[true,"location is required"],
+      required:[true,"location is required"],
 
     },
      description:{
        type:String,
-       required:[true,"Job descripiton is required"],
+       required:[true,"Job description is required"],
 
     },
      
@@ -36,7 +35,7 @@ const jobSchema= new moongoose.Schema(
     },
 
     postedBy:{
-      type:moongoose.Schema.Types.ObjectId,
+      type:mongoose.Schema.Types.ObjectId,
       ref:"User",
       required:true,
     },
