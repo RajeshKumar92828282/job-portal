@@ -1,4 +1,3 @@
-const { application } = require("express");
 const mongoose= require("mongoose");
 
 const applicationSchema= new mongoose.Schema({
@@ -23,7 +22,7 @@ status:{
     default:"Pending",
 },
 
-coverleter:{
+coverLetter:{
   type:String,
   default:"",
 },
