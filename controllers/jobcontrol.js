@@ -37,7 +37,7 @@ const getalljobs= async (req,res) =>{
    
   const jobs= (await Job.find().populate("postedBy", "name email role")).sort({ createdAt:-1});
 
-  res.status(200).json({message:"job featched successfully",count:jobs.length,jobs});
+  res.status(200).json({message:"job fetched successfully",count:jobs.length,jobs});
 
  }catch(error){
   res.status(500).json({message:"server error",error:error.message});
@@ -58,7 +58,7 @@ try{
          filter.$or=[
                {title:{$regex:q,$options:"i"}},
                {company:{$regex:q,$options:"i"}},
-               {descripition:{$regex:q,$options:"i"}},
+               {description:{$regex:q,$options:"i"}},
          ];
        }
 
@@ -78,7 +78,7 @@ const  getMyPostedJobs = async (req,res) =>{
       try{
 
      const jobs= (await Job.find({postedBy:req.user._id})).sort({createdAt:-1});
-     res.status(200).json({message:"your posted job fetched sucessfully",count:jobs.length,jobs});
+     res.status(200).json({message:"your posted job fetched successfully",count:jobs.length,jobs});
 
       }catch(error){
          res.status(500).json({message:"server error",error:error.message});
@@ -120,7 +120,7 @@ const updatejob= async (req,res)=>{
 
     const updatedjob= await Job.findByIdAndUpdate(req.params.id,{...req.body},{new:true,runValidators:true});
 
-    res.status(200).json({message:"job update sucessfully",job:updatedjob});
+    res.status(200).json({message:"job update successfully",job:updatedjob});
  }catch(error){
     res.status(500).json({message:"server error",error:error.message});
 
