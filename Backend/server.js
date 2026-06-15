@@ -3,6 +3,7 @@ const mongoose= require("mongoose");
 const mongoDB= require("./config/db");
 const dotenv= require("dotenv");
 
+
 //load env variables
 dotenv.config();
 
@@ -16,9 +17,11 @@ const applicationroutes= require("./routes/applicationroutes");
 
 const app =express();
 
+
 //middlewae
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
 
 //routes
 app.use("/api/auth",authroutes);
